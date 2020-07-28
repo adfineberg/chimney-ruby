@@ -35,7 +35,7 @@ GEM
       dry-inflector (~> 0.1, >= 0.1.2)
       dry-logic (~> 1.0, >= 1.0.2)
     ice_nine (0.11.2)
-    rake (10.5.0)
+    rake (12.3.3)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -57,8 +57,8 @@ DEPENDENCIES
   bundler (~> 1.17)
   chimney-ruby!
   dry-struct
-  rake (~> 10.0)
+  rake (~> 12.3.3)
   rspec (~> 3.0)
 
 BUNDLED WITH
-   1.17.1
+   1.17.3
