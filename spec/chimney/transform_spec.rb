@@ -45,39 +45,39 @@ RSpec.describe Chimney::Transform do
   context 'missing values' do
     it 'fails if missing values are not provided' do
       first_user = FirstUser.new(name: 'john', age: '21')
-      expect { first_user.transform_into(SecondUserWithGender) }.to raise_exception(Dry::Struct::Error)
+      expect { first_user.transform_into(SecondUserWithFeeling) }.to raise_exception(Dry::Struct::Error)
     end
 
     it 'allows providing of missing values' do
       first_user = FirstUser.new(name: 'john', age: '21')
-      second_user = first_user.into(SecondUserWithGender).with_field_const(:gender, 'female').transform
-      expect(second_user.gender).to eq 'female'
+      second_user = first_user.into(SecondUserWithFeeling).with_field_const(:feeling, 'happy').transform
+      expect(second_user.feeling).to eq 'happy'
     end
 
     it 'allows providing missing values dynamically' do
       first_user = FirstUser.new(name: 'john', age: '21')
-      dynamic_gender = proc { |user| user.age > 2 ? 'female' : 'male' }
-      second_user = first_user.into(SecondUserWithGender).with_field_computed(:gender, dynamic_gender).transform
-      expect(second_user.gender).to eq 'female'
+      dynamic_feeling = proc { |user| user.age > 2 ? 'sad' : 'happy' }
+      second_user = first_user.into(SecondUserWithFeeling).with_field_computed(:feeling, dynamic_feeling).transform
+      expect(second_user.feeling).to eq 'sad'
     end
 
-    class SecondUserWithGender < Dry::Struct
+    class SecondUserWithFeeling < Dry::Struct
       attribute :name, Types::String.optional
       attribute :age, Types::Coercible::Integer
-      attribute :gender, Types::String
+      attribute :feeling, Types::String
     end
 
     context 'with defaults' do
       it 'uses the dry struct default value if not provided' do
         first_user = FirstUser.new(name: 'john', age: '21')
-        second_user = first_user.transform_into(SecondUserWithDefaultGender)
-        expect(second_user.gender).to eq 'female'
+        second_user = first_user.transform_into(SecondUserWithDefaultFeeling)
+        expect(second_user.feeling).to eq 'happy'
       end
 
-      class SecondUserWithDefaultGender < Dry::Struct
+      class SecondUserWithDefaultFeeling < Dry::Struct
         attribute :name, Types::String.optional
         attribute :age, Types::Coercible::Integer
-        attribute :gender, Types::String.default('female'.freeze)
+        attribute :feeling, Types::String.default('happy'.freeze)
       end
     end
   end

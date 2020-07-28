@@ -44,34 +44,34 @@ For more advanced usages use `into` with `transform`, currently supported are:
 ### Add missing values
 Either statically:
 ```ruby
-class SecondUserWithGender < Dry::Struct
+class SecondUserWithFeeling < Dry::Struct
   attribute :name, Types::String.optional
   attribute :age, Types::Coercible::Integer
-  attribute :gender, Types::String
+  attribute :feeling, Types::String
 end
 
 first_user = FirstUser.new(name: 'john', age: '21')
-second_user = first_user.into(SecondUserWithGender)
-                .with_field_const(:gender, 'female')
+second_user = first_user.into(SecondUserWithFeeling)
+                .with_field_const(:feeling, 'happy')
                 .transform
 ```
 Or dynamically using a proc:
 ```ruby
-dynamic_gender = proc { |user| user.age > 2 ? 'female' : 'male' }
-second_user = first_user.into(SecondUserWithGender)
-                .with_field_computed(:gender, dynamic_gender)
+dynamic_feeling = proc { |user| user.age > 2 ? 'sad' : 'happy' }
+second_user = first_user.into(SecondUserWithFeeling)
+                .with_field_computed(:feeling, dynamic_feeling)
                 .transform
 ```
 ### Provide default values
 ```ruby
-class SecondUserWithDefaultGender < Dry::Struct
+class SecondUserWithDefaultFeeling < Dry::Struct
   attribute :name, Types::String.optional
   attribute :age, Types::Coercible::Integer
-  attribute :gender, Types::String.default('female'.freeze)
+  attribute :feeling, Types::String.default('happy'.freeze)
 end
 
 first_user = FirstUser.new(name: 'john', age: '21')
-second_user = first_user.transform_into(SecondUserWithDefaultGender)
+second_user = first_user.transform_into(SecondUserWithDefaultFeeling)
 ```
 ### Re-labelling fields
 ```ruby
